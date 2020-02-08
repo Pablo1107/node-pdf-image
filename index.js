@@ -72,6 +72,11 @@ PDFImage.prototype = {
       this.pdfFileBaseName + "." + this.convertExtension
     );
   },
+  getEscapedFilePaths: function (filePaths) {
+    return filePaths.map(path =>
+      path.replace(/ /g, "\\ ")
+    ).join(' ')
+  },
   setConvertOptions: function (convertOptions) {
     this.convertOptions = convertOptions || {};
   },
@@ -96,7 +101,7 @@ PDFImage.prototype = {
     return util.format(
       "%s -append %s \"%s\"",
       this.useGM ? "gm convert" : "convert",
-      imagePaths.join(' '),
+      this.getEscapedFilePaths(imagePaths),
       this.getOutputImagePathForFile()
     );
   },
